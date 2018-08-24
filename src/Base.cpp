@@ -1,6 +1,8 @@
 #include "Base.h"
 #include "ErrorHandler.h"
 #include "InputManager.h"
+#include "FPSRegulator.h"
+#include "GuiRenderer.h"
 
 bool Base::m_quit;
 
@@ -34,9 +36,17 @@ void Base::run(const glm::uvec2& size, const std::string& name){
 	if(result != GLEW_OK){
 		fatalError("Failed to initialize GLEW! Returned |", glewGetErrorString(result), "Error", 2);
 	}
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	init();
+
 	gameLoop();
+
+	m_game.destroy();
+
+	TextureCache::cleanUp();
 
 	SDL_GL_DeleteContext(m_context);
 	SDL_DestroyWindow(m_window);
@@ -44,15 +54,17 @@ void Base::run(const glm::uvec2& size, const std::string& name){
 }
 
 void Base::init(){
-	glClearColor(0.4f, 0.4f, 1.f, 1.f);
+	glClearColor(0.f, 0.f, 0.f, 1.f);
 	m_game.init();
 }
 
 void Base::gameLoop(){
 	while(!m_quit){
+		FPSRegulator::begin();
 		readInputs();
 		update();
 		render();
+		FPSRegulator::regulate(60);
 	}
 }
 
@@ -79,8 +91,17 @@ void Base::readInputs(){
 			case SDL_KEYUP:
 				InputManager::releaseKey(evnt.key.keysym.sym);
 			break;
+			case SDL_MOUSEBUTTONDOWN:
+				InputManager::pressKey(evnt.button.button);
+			break;
+			case SDL_MOUSEBUTTONUP:
+				InputManager::releaseKey(evnt.button.button);
+			break;
 			case SDL_MOUSEMOTION:
 				InputManager::moveMouse(evnt.motion.x, evnt.motion.y);
+			break;
+			case SDL_MOUSEWHEEL:
+				InputManager::scrollWheel(evnt.wheel.y);
 			break;
 			case SDL_QUIT:
 				m_quit = true;

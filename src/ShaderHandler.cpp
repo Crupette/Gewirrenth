@@ -10,7 +10,7 @@ ShaderHandler::ShaderHandler(){
 }
 
 ShaderHandler::~ShaderHandler(){
-
+	glDeleteProgram(m_program);
 }
 
 void ShaderHandler::buildProgram(){
@@ -42,10 +42,12 @@ void ShaderHandler::buildProgram(){
 
 	for(auto& it : shaders){
 		glDetachShader(m_program, it.first);
+		glDeleteShader(it.first);
 	}
 
 	tmp_shaders.clear();
 }
+
 
 void ShaderHandler::addShader(GLenum type, const std::string& path){
 	tmp_shaders.push_back(std::make_pair(type, path));

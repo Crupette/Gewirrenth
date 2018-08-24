@@ -20,10 +20,11 @@ public:
 
 	void setPosition(const glm::vec2& position) {m_position = position;
 						     m_update = true;}
-	void setScale(float scale) {m_scale = scale;
-				    m_update = true;}
+	void setScale(float scale);
 	void setRotation(float rotation) {m_rotation = rotation;
 					  m_update = true;}
+
+	void setScaleLimit(const glm::vec2& limit) { m_scaleLimit = limit; }
 
 	glm::vec2 getPosition() {return m_position; }
 	float getScale() {return m_scale; }
@@ -36,6 +37,8 @@ private:
 
 	glm::mat4 m_orthomatrix;
 	glm::mat4 m_cameramatrix;
+
+	glm::vec2 m_scaleLimit;
 	
 	bool m_update;
 

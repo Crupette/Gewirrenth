@@ -19,10 +19,14 @@ public:
 	static void render();
 	static void readInputs();
 
+	static void requestExit() { m_quit = true; }
+
 	static glm::uvec2 getScreenSize() {return m_windowSize;}
 	static void setWindowTitle(const std::string& title){
 		SDL_SetWindowTitle(m_window, title.c_str());
 	}
+
+	static Game* getGame() { return &m_game; }
 
 private:
 	static bool m_quit;

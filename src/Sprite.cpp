@@ -1,3 +1,5 @@
+/*
+
 #include "Sprite.h"
 
 Sprite::Sprite(){
@@ -90,3 +92,5 @@ void Sprite::addVBO(int dimensions, const std::vector<float>& data){
 
 	m_vbos.push_back(vbo);
 }
+
+*/

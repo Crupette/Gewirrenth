@@ -1,7 +1,7 @@
 #
 #	Makefile Template
-#	SDL2, GLEW, GLM
-#	
+#	SDL2, GLEW, GLM, SDL_TTF
+#
 
 SRCPATH := ./src
 INCPATH := ./include
@@ -12,24 +12,23 @@ SRCS := $(wildcard $(SRCPATH)/*.cpp)
 OBJS := $(patsubst $(SRCPATH)/%.cpp, $(OBJPATH)/%.o, $(SRCS))
 
 CC := g++
-LIBRARIES := -lSDL2 -lGLEW -lGL
+LIBRARIES := -lSDL2 -lGLEW -lGL -lSDL2_ttf
 WARNING := -Werror
 CPPFLAGS := -std=c++17 -I $(INCPATH)/
 
-RESULT := Sidescroller
+RESULT := Gewirrenth
 
 .PHONY: build run clean
 
 build: $(OBJS)
 	$(CC) $(LIBRARIES) -o $(BINPATH)/$(RESULT) $(OBJS)
-	
+
 run:
-	$(BINPATH)/$(RESULT)
-	
-clean::
+	$(MAKE) -C bin
+
+clean:
 	rm -rf $(OBJPATH)/*
 	rm -f $(BINPATH)/$(RESULT)
 
 $(OBJPATH)/%.o : $(SRCPATH)/%.cpp
 	$(CC) $(CPPFLAGS) $(WARNING) $(LIBRARIES) -c -o $@ $<
-	

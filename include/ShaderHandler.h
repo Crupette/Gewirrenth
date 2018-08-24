@@ -11,7 +11,6 @@ public:
 	~ShaderHandler();
 
 	void buildProgram();
-	void linkShaders();
 
 	void addShader(GLenum type, const std::string& path);
 
