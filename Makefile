@@ -20,7 +20,7 @@ RESULT := Gewirrenth
 
 .PHONY: build run clean
 
-build: $(OBJS)
+build: $(OBJS) | $(BINPATH)
 	$(CC) $(LIBRARIES) -o $(BINPATH)/$(RESULT) $(OBJS)
 
 run:
@@ -30,5 +30,11 @@ clean:
 	rm -rf $(OBJPATH)/*
 	rm -f $(BINPATH)/$(RESULT)
 
-$(OBJPATH)/%.o : $(SRCPATH)/%.cpp
+$(OBJPATH)/%.o : $(SRCPATH)/%.cpp | $(OBJPATH)
 	$(CC) $(CPPFLAGS) $(WARNING) $(LIBRARIES) -c -o $@ $<
+	
+$(OBJPATH):
+	mkdir $(OBJPATH)
+	
+$(BINPATH):
+	mkdir $(BINPATH)
