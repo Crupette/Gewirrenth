@@ -14,7 +14,7 @@ OBJS := $(patsubst $(SRCPATH)/%.cpp, $(OBJPATH)/%.o, $(SRCS))
 CC := g++
 LIBRARIES := -lSDL2 -lGLEW -lGL -lSDL2_ttf
 WARNING := -Werror
-CPPFLAGS := -std=c++17 -I $(INCPATH)/
+CPPFLAGS := -std=c++17 -I $(INCPATH)/ -O2
 
 RESULT := Gewirrenth
 
